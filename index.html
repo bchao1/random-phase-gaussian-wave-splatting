@@ -156,10 +156,10 @@
         <button class="button" id="teaser-button-materials" onclick="selectTeaserScene('materials')">Materials</button>
       </div>
       <h2 class="subtitle has-text-centered">
-        Emerging Gaussian splatting techniques take a few casually captured photographs as 
-        input and output a Gaussian scene representation. <strong>Gaussian Wave Splatting (GWS) </strong> 
-        turns these types of representations into holograms that can be 
-        directly displayed on emerging holographic displays. 
+        Gaussian splatting techniques take a few casually captured photographs as 
+        input and output a Gaussian scene representation. <strong>Random-phase Gaussian Wave Splatting (GWS-RP) </strong> 
+        turns these types of representations into holograms that reconstructs <strong>natural, physically-accurate defocus blur and light field parallax</strong>
+        that can be directly displayed on emerging holographic displays.  
       </h2>
     </div>
   </div>
@@ -172,7 +172,7 @@
     <div class="container">
       <div id="carousel-label" class="column is-full-width">
         <div class="column has-text-centered">
-          <h2 class="title is-4">Experimentally Captured Focal Stacks of GWS Holograms</h2>
+          <h2 class="title is-4">Experimentally Captured Focal Stacks of Random-phase GWS (GWS-RP) Holograms</h2>
         </div>
       </div>
       <div id="carousel-div" class="carousel results-carousel">
@@ -298,7 +298,7 @@
       </p>
     </div>
     <div class="content has-text-centered">
-      <img src="./static/images/ray_wave_comparison.svg" style="width: 100%;">
+      <img src="./static/images/structured_rp.svg" style="width: 50%;">
     </div>
     <div class="content has-text-justified">
       <p>
@@ -308,35 +308,9 @@
       </p>
     </div>
     <div class="content has-text-centered">
-      <div class="video-grid" id="syncedVideoGrid">
-        <div class="video-cell">
-          <video class="synced-video" autoplay muted loop playsinline>
-            <source src="./static/videos/kitchen_pc_match_focal_stack_insets.mp4" type="video/mp4">
-          </video>
-          <p class="video-label">Point cloud</p>
-        </div>
-        <div class="video-cell">
-          <video class="synced-video" autoplay muted loop playsinline>
-            <source src="./static/videos/kitchen_mesh_match_focal_stack_insets.mp4" type="video/mp4">
-          </video>
-          <p class="video-label">Polygon-based CGH</p>
-        </div>
-        <div class="video-cell">
-          <video class="synced-video" autoplay muted loop playsinline>
-            <source src="./static/videos/kitchen_full_matched_focal_stack_insets.mp4" type="video/mp4">
-          </video>
-          <p class="video-label">Ours GWS (full)</p>
-        </div>
-        <div class="video-cell">
-          <video class="synced-video" autoplay muted loop playsinline>
-            <source src="./static/videos/kitchen_fast_1M_focal_stack_insets.mp4" type="video/mp4">
-          </video>
-          <p class="video-label">Ours GWS (fast)</p>
-        </div>
-      </div>
+      <img src="./static/images/alpha_blending.svg" style="width: 100%;">
     </div>
     <div class="content has-text-justified">
-      <p class="has-text-centered" style="font-size: smaller;">(hover over the videos to pause)</p>
       <p>
         GWS achieves superior 3D focal stack reconstruction quality compared to prior primitives-based computer generated holography 
         algorithms based on point clouds and per-face textured meshes (polygon-based CGH). We also designed a fast variant of GWS based on an approximated 
@@ -356,11 +330,12 @@
       <div class="column is-full-width">
         <h2 class="title is-3">Interactive Comparisons</h2>
         
-        <div class="columns is-variable is-4">
+        <!-- 3D Focal Stack Comparison -->
+        <div class="columns is-variable is-4 mb-6">
           <!-- Left side controls -->
-          <div class="column is-5">
+          <div class="column is-4">
             <div class="box">
-              <h3 class="subtitle is-4 has-text-centered">CGH Algorithm Comparisons</h3>
+              <h3 class="subtitle is-4 has-text-centered">3D Focal Stack Comparison</h3>
               
               <!-- Scene selector -->
               <div class="field">
@@ -381,35 +356,135 @@
                 </div>
               </div>
               
-              <!-- Model selector buttons -->
+              <!-- Phase selector buttons -->
               <div class="field">
-                <label class="label">CGH Method</label>
-                <div class="buttons has-addons is-centered model-buttons">
-                  <button class="button is-active" data-model="pc_match">Point Cloud</button>
-                  <button class="button" data-model="mesh_match">Polygon-based CGH</button>
-                  <button class="button" data-model="full_matched">Full GWS</button>
-                  <button class="button" data-model="fast_1M">Fast GWS</button>
+                <label class="label">Phase Type</label>
+                <div class="buttons is-centered phase-buttons">
+                  <button class="button is-rounded is-active" data-phase="smooth">Smooth Phase</button>
+                  <button class="button is-rounded" data-phase="random">Random Phase</button>
                 </div>
               </div>
               
               <div class="content has-text-justified mt-4">
                 <p class="description-text">
-                  Select different scenes and CGH methods to compare the
-                  3D focal stack reconstruction quality of holograms.
-                  The GWS models show superior image stack quality compared to traditional 
-                  point cloud and mesh-based approaches.
+                  Select different scenes and phase types to compare the 3D focal stack reconstruction quality 
+                  between smooth phase and random phase GWS approaches.
+                  Random phase GWS shows improved bandwidth utilization and more accurate defocus blur.
                 </p>
               </div>
             </div>
           </div>
           
           <!-- Right side video display -->
-          <div class="column is-7">
+          <div class="column is-8">
             <div class="box video-container has-text-centered">
-              <video id="comparison-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
-                <source src="./static/videos/room_pc_match_focal_stack_insets.mp4" type="video/mp4">
+              <video id="focal-stack-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+                <source src="./static/videos/room_smooth_focal_stack_insets.mp4" type="video/mp4">
               </video>
-              <p class="video-caption mt-2">Focal stack reconstruction</p>
+              <p class="video-caption mt-2">3D Focal Stack Reconstruction</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 4D Light Field Comparison -->
+        <div class="columns is-variable is-4">
+          <!-- Left side controls -->
+          <div class="column is-4">
+            <div class="box">
+              <h3 class="subtitle is-4 has-text-centered">4D Light Field Comparison</h3>
+              
+              <!-- Scene selector -->
+              <div class="field">
+                <label class="label">Scene</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="scene-selector-2">
+                      <option value="room">Room</option>
+                      <option value="stump">Stump</option>
+                      <option value="garden">Garden</option>
+                      <option value="kitchen">Kitchen</option>
+                      <option value="materials">Materials</option>
+                      <option value="lego">Lego</option>
+                      <option value="chair">Chair</option>
+                      <option value="ship">Ship</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Phase selector buttons -->
+              <div class="field">
+                <label class="label">Phase Type</label>
+                <div class="buttons is-centered phase-buttons-2">
+                  <button class="button is-rounded is-active" data-phase="smooth">Smooth Phase</button>
+                  <button class="button is-rounded" data-phase="random">Random Phase</button>
+                </div>
+              </div>
+              
+              <div class="content has-text-justified mt-4">
+                <p class="description-text">
+                  Select different scenes and phase types to compare the 4D light field parallax effects 
+                  between smooth phase and random phase GWS approaches.
+                  Random phase GWS demonstrates natural view-dependent effects and improved parallax.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side video display -->
+          <div class="column is-8">
+            <div class="box video-container has-text-centered">
+              <video id="lightfield-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+                <source src="./static/videos/room_smooth_lightfield_insets.mp4" type="video/mp4">
+              </video>
+              <p class="video-caption mt-2">4D Light Field Parallax</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Extended 4D Light Field Results -->
+        <div class="columns is-variable is-4">
+          <!-- Left side controls -->
+          <div class="column is-4">
+            <div class="box">
+              <h3 class="subtitle is-4 has-text-centered">Extended 4D Light Field Results</h3>
+              
+              <!-- Scene selector -->
+              <div class="field">
+                <label class="label">Scene</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="scene-selector-3">
+                      <option value="room">Room</option>
+                      <option value="stump">Stump</option>
+                      <option value="garden">Garden</option>
+                      <option value="kitchen">Kitchen</option>
+                      <option value="materials">Materials</option>
+                      <option value="lego">Lego</option>
+                      <option value="chair">Chair</option>
+                      <option value="ship">Ship</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="content has-text-justified mt-4">
+                <p class="description-text">
+                  Select different scenes to view extended 4D light field parallax results 
+                  using random phase GWS. These results demonstrate the full range of 
+                  view-dependent effects and natural parallax across various scenes.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side video display -->
+          <div class="column is-8">
+            <div class="box video-container has-text-centered">
+              <video id="extended-lightfield-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+                <source src="./static/videos/room_random_lightfield_insets.mp4" type="video/mp4">
+              </video>
+              <p class="video-caption mt-2">Random Phase GWS - 4D Light Field</p>
             </div>
           </div>
         </div>
@@ -424,16 +499,16 @@
       <div class="container is-max-desktop content">
         <h2 class="title">BibTeX</h2>
         <pre><code>
-          @article{choi2025gaussian,
-            title={Gaussian Wave Splatting for Computer-Generated Holography},
-            author={Choi, Suyeon and Chao, Brian and Yang, Jacqueline and Gopakumar, Manu and Wetzstein, Gordon},
+          @article{chao2025randgws,
+            title={Random-phase Gaussian Wave Splatting for Computer-generated Holography},
+            author={Chao, Brian and Yang, Jacqueline and Choi, Suyeon and Gopakumar, Manu and Koiso, Ryota and Wetzstein, Gordon},
             journal={ACM Transactions on Graphics (TOG)},
-            volume={44},
-            number={4},
-            pages={1–13},
+            volume={},
+            number={},
+            pages={},
             year={2025},
-            publisher={ACM New York, NY, USA}
-            }
+            publisher={}
+          }
         </code></pre>
       </div>
     </section>

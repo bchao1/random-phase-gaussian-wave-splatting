@@ -60,57 +60,152 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
   const sceneSelector = document.getElementById('scene-selector');
-  const modelButtons = document.querySelectorAll('.model-buttons .button');
-  const comparisonVideo = document.getElementById('comparison-video');
+  const phaseButtons = document.querySelectorAll('.phase-buttons .button');
+  const focalStackVideo = document.getElementById('focal-stack-video');
   
   // Initial values
   let currentScene = 'room';
-  let currentModel = 'pc_match';
+  let currentPhase = 'smooth';
   
-  // Function to update the video source
-  function updateVideo() {
+  // Function to update video source
+  function updateFocalStackVideo() {
     // Special naming for specific scenes
     const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
     const suffix = specialScenes.includes(currentScene) ? '_insets' : '';
     
-    const videoPath = `./static/videos/${currentScene}_${currentModel}_focal_stack${suffix}.mp4`;
+    const videoPath = `./static/videos/${currentScene}_${currentPhase}_focal_stack${suffix}.mp4`;
     
     // Store current time to maintain position after source change
-    const currentTime = comparisonVideo.currentTime;
+    const currentTime = focalStackVideo.currentTime;
     
-    // Update source
-    comparisonVideo.querySelector('source').src = videoPath;
-    comparisonVideo.load();
+    // Update video source
+    focalStackVideo.querySelector('source').src = videoPath;
+    focalStackVideo.load();
     
     // Resume playback and restore time position
-    comparisonVideo.addEventListener('loadedmetadata', function onceLoaded() {
-      comparisonVideo.currentTime = currentTime;
-      comparisonVideo.play();
-      comparisonVideo.removeEventListener('loadedmetadata', onceLoaded);
+    focalStackVideo.addEventListener('loadedmetadata', function onceLoaded() {
+      focalStackVideo.currentTime = currentTime;
+      focalStackVideo.play();
+      focalStackVideo.removeEventListener('loadedmetadata', onceLoaded);
     });
   }
   
   // Scene selector change event
   sceneSelector.addEventListener('change', function() {
     currentScene = this.value;
-    updateVideo();
+    updateFocalStackVideo();
   });
   
-  // Model button click events
-  modelButtons.forEach(button => {
+  // Phase button click events
+  phaseButtons.forEach(button => {
     button.addEventListener('click', function() {
       // Remove selected class from all buttons
-      modelButtons.forEach(btn => {
+      phaseButtons.forEach(btn => {
         btn.classList.remove('is-active');
       });
       
       // Add selected class to clicked button
       this.classList.add('is-active');
       
-      // Update current model
-      currentModel = this.dataset.model;
-      updateVideo();
+      // Update current phase
+      currentPhase = this.dataset.phase;
+      updateFocalStackVideo();
     });
+  });
+});
+
+// Second interactive comparison section for 4D light field
+document.addEventListener('DOMContentLoaded', function() {
+  const sceneSelector2 = document.getElementById('scene-selector-2');
+  const phaseButtons2 = document.querySelectorAll('.phase-buttons-2 .button');
+  const lightfieldVideo = document.getElementById('lightfield-video');
+  
+  // Initial values
+  let currentScene2 = 'room';
+  let currentPhase2 = 'smooth';
+  
+  // Function to update light field video source
+  function updateLightfieldVideo() {
+    // Special naming for specific scenes
+    const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
+    const suffix = specialScenes.includes(currentScene2) ? '_insets' : '';
+    
+    const videoPath = `./static/videos/${currentScene2}_${currentPhase2}_lightfield${suffix}.mp4`;
+    
+    // Store current time to maintain position after source change
+    const currentTime = lightfieldVideo.currentTime;
+    
+    // Update video source
+    lightfieldVideo.querySelector('source').src = videoPath;
+    lightfieldVideo.load();
+    
+    // Resume playback and restore time position
+    lightfieldVideo.addEventListener('loadedmetadata', function onceLoaded() {
+      lightfieldVideo.currentTime = currentTime;
+      lightfieldVideo.play();
+      lightfieldVideo.removeEventListener('loadedmetadata', onceLoaded);
+    });
+  }
+  
+  // Scene selector change event
+  sceneSelector2.addEventListener('change', function() {
+    currentScene2 = this.value;
+    updateLightfieldVideo();
+  });
+  
+  // Phase button click events
+  phaseButtons2.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove selected class from all buttons
+      phaseButtons2.forEach(btn => {
+        btn.classList.remove('is-active');
+      });
+      
+      // Add selected class to clicked button
+      this.classList.add('is-active');
+      
+      // Update current phase
+      currentPhase2 = this.dataset.phase;
+      updateLightfieldVideo();
+    });
+  });
+});
+
+// Third interactive comparison section for extended 4D light field results
+document.addEventListener('DOMContentLoaded', function() {
+  const sceneSelector3 = document.getElementById('scene-selector-3');
+  const extendedLightfieldVideo = document.getElementById('extended-lightfield-video');
+  
+  // Initial values
+  let currentScene3 = 'room';
+  
+  // Function to update extended light field video source
+  function updateExtendedLightfieldVideo() {
+    // Special naming for specific scenes
+    const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
+    const suffix = specialScenes.includes(currentScene3) ? '_insets' : '';
+    
+    const extendedLightfieldVideoPath = `./static/videos/${currentScene3}_random_lightfield${suffix}.mp4`;
+    
+    // Store current time to maintain position after source change
+    const extendedLightfieldCurrentTime = extendedLightfieldVideo.currentTime;
+    
+    // Update extended light field video source
+    extendedLightfieldVideo.querySelector('source').src = extendedLightfieldVideoPath;
+    extendedLightfieldVideo.load();
+    
+    // Resume playback and restore time position for extended light field video
+    extendedLightfieldVideo.addEventListener('loadedmetadata', function onceLoaded() {
+      extendedLightfieldVideo.currentTime = extendedLightfieldCurrentTime;
+      extendedLightfieldVideo.play();
+      extendedLightfieldVideo.removeEventListener('loadedmetadata', onceLoaded);
+    });
+  }
+  
+  // Scene selector change event
+  sceneSelector3.addEventListener('change', function() {
+    currentScene3 = this.value;
+    updateExtendedLightfieldVideo();
   });
 });
 
