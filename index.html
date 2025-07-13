@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="A novel algorithm to convert optimized 2D Gaussians from Gaussian splatting to holograms.">
+  <meta name="keywords" content="holography, holographic displays, gaussian splatting, neural rendering, 3DGS, wave propagation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-full-width">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">
+            <span style="font-weight: 900;">Random-phase Gaussian Wave Splatting</span><br><span style="font-weight: 100;">for Computer-generated Holography</span>
+          </h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://bchao1.github.io">Brian Chao</a>*
+            </span>
+            <span class="author-block">
+              <a href="">Jackie Yang</a>*
+            </span>
+            <span class="author-block">
+              <a href="https://choisuyeon.github.io">Suyeon Choi</a>
+            </span>
+            <span class="author-block">
+              <a href="https://manugopa.github.io">Manu Gopakumar</a>
+            </span>
+            <span class="author-block">
+              <a href="https://manugopa.github.io">Ryota Koiso</a>
+            </span>
+            <span class="author-block">
+              <a href="https://web.stanford.edu/~gordonwz/">Gordon Wetzstein</a>
+            </span>
+            <p style="font-size: smaller;">*equal contribution</p>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Stanford University</span>
+          </div>
+
+          <div class="is-size-4 publication-authors">
+            <span class="author-block"><em>SIGGRAPH Asia 2025 (Journal Track)</em></span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!--
+              <span class="link-block">
+                <a href="static/files/textured_gaussians_main.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+            -->
+              <!-- Arxiv Link. -->
+              
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2505.06582"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=ttDCDbhEf7Q"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              
+              <span class="link-block">
+                <a href="https://drive.google.com/drive/folders/15FvHyIU-k80BaLLSV0zGOM_WidRPoo4U"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-google-drive"></i>
+                  </span>
+                  <span>Paper (High-Res & Compressed)</span>
+                </a>
+              </span>
+              
+              <!--
+              <span class="link-block">
+                <a href=""
+                   class="button is-normal is-rounded is-dark">
+                  <span>Results</span>
+                  </a>
+              </span>
+              -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="teaser-video-container">
+        <div class="teaser-video-wrapper" id="teaser-video-wrapper">
+          <video id="teaser-video" preload="auto" autoplay loop muted playsinline>
+            <source src="static/videos/garden_nvs_focal_stack.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+      <p class="has-text-centered is-8" style="margin-top: 10px; margin-bottom: 10px;"><strong>Experimentally captured 3D focal stacks of generated holograms on a holographic display prototype.</strong><br> (hover over the video to pause)</p>
+      <div class="buttons is-centered">
+        <button class="button is-active-teaser" id="teaser-button-garden" onclick="selectTeaserScene('garden')">Garden</button>
+        <button class="button" id="teaser-button-kitchen" onclick="selectTeaserScene('kitchen')">Kitchen</button>
+        <button class="button" id="teaser-button-materials" onclick="selectTeaserScene('materials')">Materials</button>
+      </div>
+      <h2 class="subtitle has-text-centered">
+        Emerging Gaussian splatting techniques take a few casually captured photographs as 
+        input and output a Gaussian scene representation. <strong>Gaussian Wave Splatting (GWS) </strong> 
+        turns these types of representations into holograms that can be 
+        directly displayed on emerging holographic displays. 
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="carousel-label" class="column is-full-width">
+        <div class="column has-text-centered">
+          <h2 class="title is-4">Experimentally Captured Focal Stacks of GWS Holograms</h2>
+        </div>
+      </div>
+      <div id="carousel-div" class="carousel results-carousel">
+        <div class="item item-room">
+          <video poster="" id="room" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/room_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-stump">
+          <video poster="" id="stump" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/stump_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-garden">
+          <video poster="" id="garden" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/garden_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-kitchen">
+          <video poster="" id="kitchen" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/kitchen_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-hotdog">
+          <video poster="" id="hotdog" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/hotdog_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-lego">
+          <video poster="" id="lego" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/lego_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-ship">
+          <video poster="" id="ship" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/ship_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-materials">
+          <video poster="" id="materials" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/materials_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-chair">
+          <video poster="" id="chair" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/chair_full_1M_focal_stack_insets.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <br>
+      <p class="has-text-centered">
+        We experimentally captured 3D focal stacks of generated holograms on a holographic display prototype.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+          Holographic near-eye displays offer ultra-compact form factors for virtual
+          and augmented reality systems, but rely on advanced computer-generated
+          holography (CGH) algorithms to convert 3D scenes into interference patterns that 
+          can be displayed on spatial light modulators (SLMs). 
+          <b><a href="https://bchao1.github.io/gaussian-wave-splatting/">Gaussian Wave Splatting (GWS)</a></b>
+          has recently emerged as a powerful CGH paradigm
+          that allows for the conversion of Gaussians—a state-of-the-art neural 3D
+          representation—into holograms. However, GWS assumes smooth-phase
+          distributions over the Gaussian primitives, limiting their ability to model
+          view-dependent effects and reconstruct accurate defocus blur, and severely
+          under-utilizing the space–bandwidth product of the SLM. 
+          </p>
+
+          <p>
+            In this work, we propose <b>Random-phase GWS (GWS-RP)</b> to improve bandwidth utilization,
+            which has the effect of <b>increasing eyebox size, reconstructing accurate defocus blur and parallax, 
+              and supporting time-multiplexed rendering to suppress speckle artifacts</b>. 
+            At the core of GWS-RP is a novel wavefront compositing and alpha-blending scheme, 
+            along with a principled way of applying random phases to Gaussian primitives. 
+            These advancements collectively lead to high image quality and perceptually realistic 3D holograms for next-generation near-eye displays, 
+            as we demonstrate through extensive simulated and experimental results.
+          </p>
+ 
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+  </div>
+</section>
+
+<section class="section fullwidth-gray-bg">
+  <div class="container is-max-desktop">
+<!-- Model Pipeline. -->
+<div class="columns is-centered has-text-centered">
+  <div class="column is-full-width">
+    <h2 class="title is-3">Overview</h2>
+    <div class="content has-text-centered">
+      <img src="./static/images/overview.svg" style="width: 100%;">
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        <strong>Gaussian Wave Splatting (GWS)</strong> takes a set of optimized <a href="https://surfsplatting.github.io/">2D Gaussians </a> 
+        as input and outputs a hologram that can be directly displayed on emerging holographic displays. In the high level,
+        each 2D Gaussian primitive is illuminated by a coherent illumination source, and the resulting illuminated and propagated wavefront 
+        is recorded on a spatial light modulator (SLM) to generate the hologram. Since the parameters of the Gaussians already explicitly encode 3D informtation, 
+        further splatting Gaussians using a physically-accurate wave propagation model allows for the direct reconstruction of 
+        3D focal stacks with natural defocus blur when viewed on a holographic display.
+      </p>
+    </div>
+    <div class="content has-text-centered">
+      <img src="./static/images/ray_wave_comparison.svg" style="width: 100%;">
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        Aside from deriving the exact mathematical formulation of the Fourier spectrum of arbitrarily oriented 2D Gaussians for splatting, 
+        we also derived the wave optics-counterpart of alpha blending (right) for Gaussian primitives, which is the major building block in 
+        the original geometric optics-based Gaussian splatting pipeline (left) to accurately model occlusion.
+      </p>
+    </div>
+    <div class="content has-text-centered">
+      <div class="video-grid" id="syncedVideoGrid">
+        <div class="video-cell">
+          <video class="synced-video" autoplay muted loop playsinline>
+            <source src="./static/videos/kitchen_pc_match_focal_stack_insets.mp4" type="video/mp4">
+          </video>
+          <p class="video-label">Point cloud</p>
+        </div>
+        <div class="video-cell">
+          <video class="synced-video" autoplay muted loop playsinline>
+            <source src="./static/videos/kitchen_mesh_match_focal_stack_insets.mp4" type="video/mp4">
+          </video>
+          <p class="video-label">Polygon-based CGH</p>
+        </div>
+        <div class="video-cell">
+          <video class="synced-video" autoplay muted loop playsinline>
+            <source src="./static/videos/kitchen_full_matched_focal_stack_insets.mp4" type="video/mp4">
+          </video>
+          <p class="video-label">Ours GWS (full)</p>
+        </div>
+        <div class="video-cell">
+          <video class="synced-video" autoplay muted loop playsinline>
+            <source src="./static/videos/kitchen_fast_1M_focal_stack_insets.mp4" type="video/mp4">
+          </video>
+          <p class="video-label">Ours GWS (fast)</p>
+        </div>
+      </div>
+    </div>
+    <div class="content has-text-justified">
+      <p class="has-text-centered" style="font-size: smaller;">(hover over the videos to pause)</p>
+      <p>
+        GWS achieves superior 3D focal stack reconstruction quality compared to prior primitives-based computer generated holography 
+        algorithms based on point clouds and per-face textured meshes (polygon-based CGH). We also designed a fast variant of GWS based on an approximated 
+        volume rendering image formation model inspired by order-invariant transparency (OIT) in traditional computer graphics.
+        We implemented custom CUDA kernels for this fast GWS variant, achieving a 30X speedup compared the full, exact GWS with only a small drop in image quality.
+      </p>
+    </div>
+  </div>
+</div>
+<!--/ Model Pipeline -->
+</div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Interactive Comparisons</h2>
+        
+        <div class="columns is-variable is-4">
+          <!-- Left side controls -->
+          <div class="column is-5">
+            <div class="box">
+              <h3 class="subtitle is-4 has-text-centered">CGH Algorithm Comparisons</h3>
+              
+              <!-- Scene selector -->
+              <div class="field">
+                <label class="label">Scene</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="scene-selector">
+                      <option value="room">Room</option>
+                      <option value="stump">Stump</option>
+                      <option value="garden">Garden</option>
+                      <option value="kitchen">Kitchen</option>
+                      <option value="materials">Materials</option>
+                      <option value="lego">Lego</option>
+                      <option value="chair">Chair</option>
+                      <option value="ship">Ship</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Model selector buttons -->
+              <div class="field">
+                <label class="label">CGH Method</label>
+                <div class="buttons has-addons is-centered model-buttons">
+                  <button class="button is-active" data-model="pc_match">Point Cloud</button>
+                  <button class="button" data-model="mesh_match">Polygon-based CGH</button>
+                  <button class="button" data-model="full_matched">Full GWS</button>
+                  <button class="button" data-model="fast_1M">Fast GWS</button>
+                </div>
+              </div>
+              
+              <div class="content has-text-justified mt-4">
+                <p class="description-text">
+                  Select different scenes and CGH methods to compare the
+                  3D focal stack reconstruction quality of holograms.
+                  The GWS models show superior image stack quality compared to traditional 
+                  point cloud and mesh-based approaches.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side video display -->
+          <div class="column is-7">
+            <div class="box video-container has-text-centered">
+              <video id="comparison-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+                <source src="./static/videos/room_pc_match_focal_stack_insets.mp4" type="video/mp4">
+              </video>
+              <p class="video-caption mt-2">Focal stack reconstruction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" class="fullwidth-gray-bg">
+  <div class="container">
+    <section class="section" id="BibTeX">
+      <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>
+          @article{choi2025gaussian,
+            title={Gaussian Wave Splatting for Computer-Generated Holography},
+            author={Choi, Suyeon and Chao, Brian and Yang, Jacqueline and Gopakumar, Manu and Wetzstein, Gordon},
+            journal={ACM Transactions on Graphics (TOG)},
+            volume={44},
+            number={4},
+            pages={1–13},
+            year={2025},
+            publisher={ACM New York, NY, USA}
+            }
+        </code></pre>
+      </div>
+    </section>
+    <div class="content has-text-centered">
+      
+      <a class="icon-link"
+         href="https://arxiv.org/pdf/2505.06582">
+        <i class="ai ai-arxiv"></i>
+      </a>
+    
+      <a class="icon-link" href="" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+      <a class="icon-link" href="https://drive.google.com/file/d/1tdLECuTQ-z7GU1ueCJBeKqGuSVu9Lbry/view?usp=sharing" class="external-link" disabled>
+        <i class="fab fa-google-drive"></i>
+      </a>
+      <br>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
