@@ -289,33 +289,39 @@
     </div>
     <div class="content has-text-justified">
       <p>
-        <strong>Gaussian Wave Splatting (GWS)</strong> takes a set of optimized <a href="https://surfsplatting.github.io/">2D Gaussians </a> 
-        as input and outputs a hologram that can be directly displayed on emerging holographic displays. In the high level,
-        each 2D Gaussian primitive is illuminated by a coherent illumination source, and the resulting illuminated and propagated wavefront 
-        is recorded on a spatial light modulator (SLM) to generate the hologram. Since the parameters of the Gaussians already explicitly encode 3D informtation, 
-        further splatting Gaussians using a physically-accurate wave propagation model allows for the direct reconstruction of 
-        3D focal stacks with natural defocus blur when viewed on a holographic display.
+        <strong>Random-phase Gaussian Wave Splatting (GWS-RP)</strong> takes a set of optimized <a href="https://surfsplatting.github.io/">2D Gaussians </a> 
+        as input and outputs a hologram that can be directly displayed on emerging holographic displays. Unlike <a href="https://bchao1.github.io/gaussian-wave-splatting/">Gaussian Wave Splatting (GWS)</a>, 
+        which assumes smooth-phase distributions over the Gaussian primitives, GWS-RP applies random phases to the Gaussians, which <b>increases the eyebox size, 
+          reconstructs accurate defocus blur and parallax, and supports time-multiplexed rendering to suppress speckle artifacts</b>.
+        
+        At the core of GWS-RP is
+
+        <ol style="list-style-type: decimal; padding-left: 20px;">
+          <li>a novel wavefront compositing and alpha-blending scheme (<strong>Random-phase Alpha Blending</strong>), and</li>
+          <li>a principled way of applying random phases to Gaussian primitives (<strong>Structured Random Phase</strong>).</li>
+        </ol>
+
+        These advancements collectively lead to high image quality and perceptually realistic 3D holograms for next-generation near-eye displays, 
+        as we demonstrate through extensive simulated and experimental results.
       </p>
     </div>
-    <div class="content has-text-centered">
-      <img src="./static/images/structured_rp.svg" style="width: 50%;">
-    </div>
+    
+          <h3 class="title is-4 has-text-centered">1. Random-phase Alpha Blending</h3>
+      <div class="content has-text-centered">
+        <img src="./static/images/alpha_blending.svg" style="width: 100%;">
+      </div>
     <div class="content has-text-justified">
       <p>
-        Aside from deriving the exact mathematical formulation of the Fourier spectrum of arbitrarily oriented 2D Gaussians for splatting, 
-        we also derived the wave optics-counterpart of alpha blending (right) for Gaussian primitives, which is the major building block in 
-        the original geometric optics-based Gaussian splatting pipeline (left) to accurately model occlusion.
+        
       </p>
     </div>
-    <div class="content has-text-centered">
-      <img src="./static/images/alpha_blending.svg" style="width: 100%;">
-    </div>
+          <h3 class="title is-4 has-text-centered">2. Structured Random Phase</h3>
+      <div class="content has-text-centered">
+        <img src="./static/images/structured_rp.svg" style="width: 50%;">
+      </div>
     <div class="content has-text-justified">
       <p>
-        GWS achieves superior 3D focal stack reconstruction quality compared to prior primitives-based computer generated holography 
-        algorithms based on point clouds and per-face textured meshes (polygon-based CGH). We also designed a fast variant of GWS based on an approximated 
-        volume rendering image formation model inspired by order-invariant transparency (OIT) in traditional computer graphics.
-        We implemented custom CUDA kernels for this fast GWS variant, achieving a 30X speedup compared the full, exact GWS with only a small drop in image quality.
+        
       </p>
     </div>
   </div>
