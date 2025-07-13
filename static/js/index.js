@@ -1,5 +1,9 @@
 window.HELP_IMPROVE_VIDEOJS = false;
 
+// Global easing function for smooth animations
+function easeOutCubic(t) {
+  return 1 - Math.pow(1 - t, 3);
+}
 
 function sleepSync(ms) {
   const start = Date.now();
@@ -72,17 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const videoPath = `./static/videos/sim_fs_videos/${currentScene}_${currentPhase}.mp4`;
     
-    // Store current time to maintain position after source change
-    const currentTime = focalStackVideo.currentTime;
-    
     // Update video source
     focalStackVideo.querySelector('source').src = videoPath;
     focalStackVideo.load();
     
-    // Resume playback and restore time position
+    // Pause video and update slider when new video loads
     focalStackVideo.addEventListener('loadedmetadata', function onceLoaded() {
-      focalStackVideo.currentTime = currentTime;
-      focalStackVideo.play();
+      focalStackVideo.pause();
+      updateDepthSlider();
       focalStackVideo.removeEventListener('loadedmetadata', onceLoaded);
     });
   }
@@ -109,6 +110,121 @@ document.addEventListener('DOMContentLoaded', function() {
       updateFocalStackVideo();
     });
   });
+  
+  // Depth slider functionality
+  const depthSliderThumb = document.getElementById('depth-slider-thumb');
+  const depthSliderTrack = document.querySelector('.depth-slider-track');
+  
+  let animationId = null;
+  let lastUpdateTime = 0;
+  
+  // Function to update slider position based on video time
+  function updateDepthSlider() {
+    if (!focalStackVideo.duration) return;
+    
+    const videoTime = focalStackVideo.currentTime;
+    const videoDuration = focalStackVideo.duration;
+    
+    // Calculate position for far-near-far cycle (two passes)
+    // First pass: 0-50% of video (far to near)
+    // Second pass: 50-100% of video (near to far)
+    let progress;
+    if (videoTime <= videoDuration / 2) {
+      // First pass: far to near
+      progress = videoTime / (videoDuration / 2);
+    } else {
+      // Second pass: near to far
+      progress = 1 - ((videoTime - videoDuration / 2) / (videoDuration / 2));
+    }
+    
+    // Update slider position with smooth animation
+    const trackWidth = depthSliderTrack.offsetWidth;
+    const thumbWidth = depthSliderThumb.offsetWidth;
+    const maxLeft = trackWidth - thumbWidth;
+    const targetLeft = progress * maxLeft;
+    
+    // Use transform for smoother animation
+    const currentLeft = parseFloat(depthSliderThumb.style.left) || 0;
+    const delta = targetLeft - currentLeft;
+    
+    // Very smooth interpolation with easing
+    const smoothFactor = 0.06;
+    const easedDelta = delta * easeOutCubic(smoothFactor);
+    const newLeft = currentLeft + easedDelta;
+    
+    // Ensure the slider reaches the exact edges
+    const clampedLeft = Math.max(0, Math.min(maxLeft, newLeft));
+    depthSliderThumb.style.left = clampedLeft + 'px';
+  }
+  
+  // Pause video initially and set up slider control
+  focalStackVideo.pause();
+  
+  // Update slider position without animation loop
+  function updateDepthSlider() {
+    if (!focalStackVideo.duration) return;
+    
+    const videoTime = focalStackVideo.currentTime;
+    const videoDuration = focalStackVideo.duration;
+    
+    // Calculate position for far-near-far cycle (two passes)
+    // First pass: 0-50% of video (far to near)
+    // Second pass: 50-100% of video (near to far)
+    let progress;
+    if (videoTime <= videoDuration / 2) {
+      // First pass: far to near
+      progress = videoTime / (videoDuration / 2);
+    } else {
+      // Second pass: near to far
+      progress = 1 - ((videoTime - videoDuration / 2) / (videoDuration / 2));
+    }
+    
+    // Update slider position directly (no smooth animation)
+    const trackWidth = depthSliderTrack.offsetWidth;
+    const thumbWidth = depthSliderThumb.offsetWidth;
+    const maxLeft = trackWidth - thumbWidth;
+    const targetLeft = progress * maxLeft;
+    
+    // Set position directly
+    depthSliderThumb.style.left = targetLeft + 'px';
+  }
+  
+  // Function to update video time based on slider position
+  function updateVideoFromSlider(progress) {
+    const videoDuration = focalStackVideo.duration;
+    // Map full slider range to first 50% of video
+    const videoTime = progress * (videoDuration / 2);
+    focalStackVideo.currentTime = videoTime;
+  }
+  
+  // Focal stack slider drag functionality
+  let isDragging = false;
+  
+  depthSliderTrack.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    e.preventDefault();
+  });
+  
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    
+    const rect = depthSliderTrack.getBoundingClientRect();
+    const trackWidth = rect.width;
+    let clickX = e.clientX - rect.left;
+    let progress = clickX / trackWidth;
+    progress = Math.max(0, Math.min(1, progress));
+    updateVideoFromSlider(progress);
+    
+    // Update thumb position directly
+    const thumbWidth = depthSliderThumb.offsetWidth;
+    const maxLeft = trackWidth - thumbWidth;
+    const targetLeft = progress * maxLeft;
+    depthSliderThumb.style.left = targetLeft + 'px';
+  });
+  
+  document.addEventListener('mouseup', function() {
+    isDragging = false;
+  });
 });
 
 // Second interactive comparison section for 4D light field
@@ -126,17 +242,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const videoPath = `./static/videos/sim_lf_videos/${currentScene2}_${currentPhase2}.mp4`;
     
-    // Store current time to maintain position after source change
-    const currentTime = lightfieldVideo.currentTime;
-    
     // Update video source
     lightfieldVideo.querySelector('source').src = videoPath;
     lightfieldVideo.load();
     
-    // Resume playback and restore time position
+    // Pause video and update slider when new video loads
     lightfieldVideo.addEventListener('loadedmetadata', function onceLoaded() {
-      lightfieldVideo.currentTime = currentTime;
-      lightfieldVideo.play();
+      lightfieldVideo.pause();
+      updateParallaxSlider();
       lightfieldVideo.removeEventListener('loadedmetadata', onceLoaded);
     });
   }
@@ -163,6 +276,90 @@ document.addEventListener('DOMContentLoaded', function() {
       updateLightfieldVideo();
     });
   });
+  
+  // Parallax slider functionality
+  const parallaxSliderThumb = document.getElementById('parallax-slider-thumb');
+  const parallaxSliderTrack = parallaxSliderThumb ? parallaxSliderThumb.parentElement : null;
+  
+  let parallaxAnimationId = null;
+  
+  // Only proceed if slider elements exist
+  if (parallaxSliderThumb && parallaxSliderTrack) {
+  
+  // Pause video initially and set up slider control
+  lightfieldVideo.pause();
+  
+  // Update slider position without animation loop
+  function updateParallaxSlider() {
+    if (!lightfieldVideo.duration) return;
+    
+    const videoTime = lightfieldVideo.currentTime;
+    const videoDuration = lightfieldVideo.duration;
+    
+    // Calculate position for left-right-left cycle (two passes)
+    // First pass: 0-50% of video (left to right)
+    // Second pass: 50-100% of video (right to left)
+    let progress;
+    if (videoTime <= videoDuration / 2) {
+      // First pass: left to right
+      progress = videoTime / (videoDuration / 2);
+    } else {
+      // Second pass: right to left
+      progress = 1 - ((videoTime - videoDuration / 2) / (videoDuration / 2));
+    }
+    
+    // Update slider position directly (no smooth animation)
+    const trackWidth = parallaxSliderTrack.offsetWidth;
+    const thumbWidth = parallaxSliderThumb.offsetWidth;
+    const maxLeft = trackWidth - thumbWidth;
+    const targetLeft = progress * maxLeft;
+    
+    // Set position directly
+    parallaxSliderThumb.style.left = targetLeft + 'px';
+  }
+  
+  // Initialize slider position
+  lightfieldVideo.addEventListener('loadedmetadata', function() {
+    updateParallaxSlider();
+  });
+  
+  // Function to update video time based on slider position
+  function updateParallaxVideoFromSlider(progress) {
+    const videoDuration = lightfieldVideo.duration;
+    // Map full slider range to first 50% of video
+    const videoTime = progress * (videoDuration / 2);
+    lightfieldVideo.currentTime = videoTime;
+  }
+  
+  // Parallax slider drag functionality
+  let isDraggingParallax = false;
+  
+  parallaxSliderTrack.addEventListener('mousedown', function(e) {
+    isDraggingParallax = true;
+    e.preventDefault();
+  });
+  
+  document.addEventListener('mousemove', function(e) {
+    if (!isDraggingParallax) return;
+    
+    const rect = parallaxSliderTrack.getBoundingClientRect();
+    const trackWidth = rect.width;
+    let clickX = e.clientX - rect.left;
+    let progress = clickX / trackWidth;
+    progress = Math.max(0, Math.min(1, progress));
+    updateParallaxVideoFromSlider(progress);
+    
+    // Update thumb position directly
+    const thumbWidth = parallaxSliderThumb.offsetWidth;
+    const maxLeft = trackWidth - thumbWidth;
+    const targetLeft = progress * maxLeft;
+    parallaxSliderThumb.style.left = targetLeft + 'px';
+  });
+  
+  document.addEventListener('mouseup', function() {
+    isDraggingParallax = false;
+  });
+  } // Close the if statement
 });
 
 // Third interactive comparison section for extended 4D light field results

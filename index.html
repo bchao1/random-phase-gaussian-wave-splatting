@@ -312,7 +312,11 @@
       </div>
     <div class="content has-text-justified">
       <p>
-        
+        We propose a novel wavefront compositing scheme that performs back-to-front compositing of Gaussian primitives, 
+        inspired by the silhouette method from prior polygon-based computer-generated holography (CGH) research. In addition, 
+        we introduce a new alpha-blending formulation compatible with arbitrary random-phase primitives. Together, these two 
+        contributions enable accurate reconstruction of defocus blur and occlusion effects, while fully eliminating the dark 
+        halo artifacts commonly observed in previous alpha-blending approaches.
       </p>
     </div>
           <h3 class="title is-4 has-text-centered">2. Structured Random Phase</h3>
@@ -321,7 +325,12 @@
       </div>
     <div class="content has-text-justified">
       <p>
-        
+        We propose a principled way of applying random phases to Gaussian primitives, which allows for the correct modeling of 
+        any angular emission profile, or Fourier spectrum, of the Gaussian primitive while maintaining its amplitude distribution in 
+        the spatial domain. This is different from prior random-phase CGH methods where only fully diffuse surfaces can be reconstructed.
+        This allows for the correct reconstruction of 
+        view-dependent effects such as specular colors using spherical harmonics, and introduces new capabilities for GWS-RP such as 
+        programmatical control of the depth of field of the hologram.
       </p>
     </div>
   </div>
@@ -331,7 +340,7 @@
 </section>
 
 <section class="section">
-  <div class="container is-max-desktop">
+  <div class="container is-fluid">
     <div class="columns is-centered has-text-centered">
       <div class="column is-full-width">
         <h2 class="title is-3">Interactive Comparisons</h2>
@@ -370,6 +379,8 @@
                 </div>
               </div>
               
+
+              
               <div class="content has-text-justified mt-4">
                 <p class="description-text">
                   Select different scenes and GWS variants to compare the 3D focal stack reconstruction quality 
@@ -384,10 +395,21 @@
           <!-- Right side video display -->
           <div class="column is-8">
             <div class="box video-container has-text-centered">
-              <video id="focal-stack-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+              <video id="focal-stack-video" muted loop playsinline style="width: 100%; border: 2px solid black;">
                 <source src="./static/videos/sim_fs_videos/bicycle_smooth.mp4" type="video/mp4">
               </video>
-              <p class="video-caption mt-2">3D Focal Stack Reconstruction</p>
+              <!--<p class="video-caption mt-2">3D Focal Stack Reconstruction</p>
+              
+              <!-- Depth Slider -->
+              <div class="depth-slider-container mt-4" style="width: 80%; margin: 0 auto;">
+                <div class="depth-labels">
+                  <span class="depth-label">Far</span>
+                  <span class="depth-label">Near</span>
+                </div>
+                <div class="depth-slider-track">
+                  <div class="depth-slider-thumb" id="depth-slider-thumb"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -441,10 +463,21 @@
           <!-- Right side video display -->
           <div class="column is-8">
             <div class="box video-container has-text-centered">
-              <video id="lightfield-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
+              <video id="lightfield-video" muted loop playsinline style="width: 100%; border: 2px solid black;">
                 <source src="./static/videos/sim_lf_videos/bicycle_smooth.mp4" type="video/mp4">
               </video>
-              <p class="video-caption mt-2">4D Light Field Parallax</p>
+              <!--<p class="video-caption mt-2">4D Light Field Parallax</p>-->
+              
+              <!-- Parallax Slider -->
+              <div class="depth-slider-container mt-4" style="width: 80%; margin: 0 auto;">
+                <div class="depth-labels">
+                  <span class="depth-label">Left</span>
+                  <span class="depth-label">Right</span>
+                </div>
+                <div class="depth-slider-track">
+                  <div class="depth-slider-thumb" id="parallax-slider-thumb"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
