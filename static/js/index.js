@@ -64,16 +64,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const focalStackVideo = document.getElementById('focal-stack-video');
   
   // Initial values
-  let currentScene = 'room';
+  let currentScene = 'bicycle';
   let currentPhase = 'smooth';
   
   // Function to update video source
   function updateFocalStackVideo() {
-    // Special naming for specific scenes
-    const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
-    const suffix = specialScenes.includes(currentScene) ? '_insets' : '';
     
-    const videoPath = `./static/videos/${currentScene}_${currentPhase}_focal_stack${suffix}.mp4`;
+    const videoPath = `./static/videos/sim_fs_videos/${currentScene}_${currentPhase}.mp4`;
     
     // Store current time to maintain position after source change
     const currentTime = focalStackVideo.currentTime;
@@ -121,16 +118,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const lightfieldVideo = document.getElementById('lightfield-video');
   
   // Initial values
-  let currentScene2 = 'room';
+  let currentScene2 = 'bicycle';
   let currentPhase2 = 'smooth';
   
   // Function to update light field video source
   function updateLightfieldVideo() {
-    // Special naming for specific scenes
-    const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
-    const suffix = specialScenes.includes(currentScene2) ? '_insets' : '';
     
-    const videoPath = `./static/videos/${currentScene2}_${currentPhase2}_lightfield${suffix}.mp4`;
+    const videoPath = `./static/videos/sim_lf_videos/${currentScene2}_${currentPhase2}.mp4`;
     
     // Store current time to maintain position after source change
     const currentTime = lightfieldVideo.currentTime;
@@ -177,15 +171,12 @@ document.addEventListener('DOMContentLoaded', function() {
   const extendedLightfieldVideo = document.getElementById('extended-lightfield-video');
   
   // Initial values
-  let currentScene3 = 'room';
+  let currentScene3 = 'bicycle';
   
   // Function to update extended light field video source
   function updateExtendedLightfieldVideo() {
-    // Special naming for specific scenes
-    const specialScenes = ['room', 'garden', 'kitchen', 'stump'];
-    const suffix = specialScenes.includes(currentScene3) ? '_insets' : '';
     
-    const extendedLightfieldVideoPath = `./static/videos/${currentScene3}_random_lightfield${suffix}.mp4`;
+    const extendedLightfieldVideoPath = `./static/videos/parallax_sim/${currentScene3}.mp4`;
     
     // Store current time to maintain position after source change
     const extendedLightfieldCurrentTime = extendedLightfieldVideo.currentTime;
@@ -288,40 +279,6 @@ $(document).ready(function() {
     }
     bulmaSlider.attach();
 })
-
-
-// supplemental materials
-let currentScene = 'mipnerf360-bicycle';
-let currentModel = '3DGS';
-let currentTimeVaryGaussians = 0;
-let videoPaused = false;
-
-let currentSceneDecomp = 'mipnerf360-bicycle';
-let currentTexDecomp = 'none';
-let currentColorDecomp = 'base';
-let currentTimeColorDecomp = 0;
-let videoPausedDecomp = false;
-
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById("video-vary-gaussians").addEventListener('pause', () => {
-    console.log("pause video");
-    videoPaused = true;
-  });
-  document.getElementById("video-vary-gaussians").addEventListener('play', () => {
-    videoPaused = false;
-  });
-  document.getElementById("video-color-decomp").addEventListener('pause', () => {
-    console.log("pause video");
-    videoPausedDecomp = true;
-  });
-  document.getElementById("video-color-decomp").addEventListener('play', () => {
-    videoPausedDecomp = false;
-  });
-  currentTimeVaryGaussians = document.getElementById('video-vary-gaussians').currentTime;
-  currentTimeColorDecomp = document.getElementById('video-color-decomp').currentTime;
-});
-
 
 // Select teaser scene
 let teaserScene = "garden";

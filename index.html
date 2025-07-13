@@ -349,11 +349,11 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select id="scene-selector">
-                      <option value="room">Room</option>
-                      <option value="stump">Stump</option>
-                      <option value="garden">Garden</option>
+                      <option value="bicycle">Bicycle</option>
+                      <option value="counter">Counter</option>
                       <option value="kitchen">Kitchen</option>
                       <option value="materials">Materials</option>
+                      <option value="hotdog">Hotdog</option>
                       <option value="lego">Lego</option>
                       <option value="chair">Chair</option>
                       <option value="ship">Ship</option>
@@ -364,18 +364,18 @@
               
               <!-- Phase selector buttons -->
               <div class="field">
-                <label class="label">Phase Type</label>
                 <div class="buttons is-centered phase-buttons">
-                  <button class="button is-rounded is-active" data-phase="smooth">Smooth Phase</button>
-                  <button class="button is-rounded" data-phase="random">Random Phase</button>
+                  <button class="button is-rounded is-active" data-phase="smooth">Smooth-phase GWS</button>
+                  <button class="button is-rounded" data-phase="random">Random-phase GWS</button>
                 </div>
               </div>
               
               <div class="content has-text-justified mt-4">
                 <p class="description-text">
-                  Select different scenes and phase types to compare the 3D focal stack reconstruction quality 
-                  between smooth phase and random phase GWS approaches.
-                  Random phase GWS shows improved bandwidth utilization and more accurate defocus blur.
+                  Select different scenes and GWS variants to compare the 3D focal stack reconstruction quality 
+                  between smooth-phase and random-phase GWS approaches.
+                  Random-phase GWS shows improved bandwidth utilization and more accurate defocus blur 
+                  while smooth-phase GWS exhibits unnatural defocus blur with ringing artifacts.
                 </p>
               </div>
             </div>
@@ -385,7 +385,7 @@
           <div class="column is-8">
             <div class="box video-container has-text-centered">
               <video id="focal-stack-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
-                <source src="./static/videos/room_smooth_focal_stack_insets.mp4" type="video/mp4">
+                <source src="./static/videos/sim_fs_videos/bicycle_smooth.mp4" type="video/mp4">
               </video>
               <p class="video-caption mt-2">3D Focal Stack Reconstruction</p>
             </div>
@@ -405,11 +405,11 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select id="scene-selector-2">
-                      <option value="room">Room</option>
-                      <option value="stump">Stump</option>
-                      <option value="garden">Garden</option>
+                      <option value="bicycle">Bicycle</option>
+                      <option value="counter">Counter</option>
                       <option value="kitchen">Kitchen</option>
                       <option value="materials">Materials</option>
+                      <option value="hotdog">Hotdog</option>
                       <option value="lego">Lego</option>
                       <option value="chair">Chair</option>
                       <option value="ship">Ship</option>
@@ -420,18 +420,19 @@
               
               <!-- Phase selector buttons -->
               <div class="field">
-                <label class="label">Phase Type</label>
                 <div class="buttons is-centered phase-buttons-2">
-                  <button class="button is-rounded is-active" data-phase="smooth">Smooth Phase</button>
-                  <button class="button is-rounded" data-phase="random">Random Phase</button>
+                  <button class="button is-rounded is-active" data-phase="smooth">Smooth-phase GWS</button>
+                  <button class="button is-rounded" data-phase="random">Random-phase GWS</button>
                 </div>
               </div>
               
               <div class="content has-text-justified mt-4">
                 <p class="description-text">
-                  Select different scenes and phase types to compare the 4D light field parallax effects 
-                  between smooth phase and random phase GWS approaches.
-                  Random phase GWS demonstrates natural view-dependent effects and improved parallax.
+                  Select different scenes and GWS variants to compare the 4D light field <strong>horizontal parallax</strong> effects 
+                  between smooth-phase and random-phase GWS approaches.
+                  Random-phase GWS demonstrates natural view-dependent effects and improved parallax, while
+                  smooth-phase GWS suffer from severe image quality degradation as the pupil moves away from the center of the 
+                  eyebox.
                 </p>
               </div>
             </div>
@@ -441,7 +442,7 @@
           <div class="column is-8">
             <div class="box video-container has-text-centered">
               <video id="lightfield-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
-                <source src="./static/videos/room_smooth_lightfield_insets.mp4" type="video/mp4">
+                <source src="./static/videos/sim_lf_videos/bicycle_smooth.mp4" type="video/mp4">
               </video>
               <p class="video-caption mt-2">4D Light Field Parallax</p>
             </div>
@@ -461,11 +462,11 @@
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select id="scene-selector-3">
-                      <option value="room">Room</option>
-                      <option value="stump">Stump</option>
-                      <option value="garden">Garden</option>
+                      <option value="bicycle">Bicycle</option>
+                      <option value="counter">Counter</option>
                       <option value="kitchen">Kitchen</option>
                       <option value="materials">Materials</option>
+                      <option value="hotdog">Hotdog</option>
                       <option value="lego">Lego</option>
                       <option value="chair">Chair</option>
                       <option value="ship">Ship</option>
@@ -476,8 +477,7 @@
               
               <div class="content has-text-justified mt-4">
                 <p class="description-text">
-                  Select different scenes to view extended 4D light field parallax results 
-                  using random phase GWS. These results demonstrate the full range of 
+                  Select different scenes to view extended 4D light field results with <strong>full 2D parallax</strong> using random phase GWS. These results demonstrate the full range of 
                   view-dependent effects and natural parallax across various scenes.
                 </p>
               </div>
@@ -488,9 +488,9 @@
           <div class="column is-8">
             <div class="box video-container has-text-centered">
               <video id="extended-lightfield-video" autoplay muted loop playsinline style="width: 100%; border: 2px solid black;">
-                <source src="./static/videos/room_random_lightfield_insets.mp4" type="video/mp4">
+                <source src="./static/videos/parallax_sim/bicycle.mp4" type="video/mp4">
               </video>
-              <p class="video-caption mt-2">Random Phase GWS - 4D Light Field</p>
+              <p class="video-caption mt-2">4D Light Field Parallax from Random Phase GWS</p>
             </div>
           </div>
         </div>
