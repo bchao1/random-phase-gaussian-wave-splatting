@@ -144,16 +144,16 @@
       <div class="teaser-video-container">
         <div class="teaser-video-wrapper" id="teaser-video-wrapper">
           <video id="teaser-video" preload="auto" autoplay loop muted playsinline>
-            <source src="static/videos/garden_nvs_focal_stack.mp4" type="video/mp4">
+            <source src="static/videos/captured/kitchen.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
       </div>
       <p class="has-text-centered is-8" style="margin-top: 10px; margin-bottom: 10px;"><strong>Experimentally captured 3D focal stacks of generated holograms on a holographic display prototype.</strong><br> (hover over the video to pause)</p>
       <div class="buttons is-centered">
-        <button class="button is-active-teaser" id="teaser-button-garden" onclick="selectTeaserScene('garden')">Garden</button>
-        <button class="button" id="teaser-button-kitchen" onclick="selectTeaserScene('kitchen')">Kitchen</button>
+        <button class="button is-active-teaser" id="teaser-button-kitchen" onclick="selectTeaserScene('kitchen')">Kitchen</button>
         <button class="button" id="teaser-button-materials" onclick="selectTeaserScene('materials')">Materials</button>
+        <button class="button" id="teaser-button-hotdog" onclick="selectTeaserScene('hotdog')">Hotdog</button>
       </div>
       <h2 class="subtitle has-text-centered">
         Gaussian splatting techniques take a few casually captured photographs as 
@@ -176,57 +176,45 @@
         </div>
       </div>
       <div id="carousel-div" class="carousel results-carousel">
-        <div class="item item-room">
-          <video poster="" id="room" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/room_full_1M_focal_stack_insets.mp4"
+        <div class="item item-bicycle">
+          <video poster="" id="bicycle" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/captured/bicycle.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-stump">
-          <video poster="" id="stump" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/stump_full_1M_focal_stack_insets.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-garden">
-          <video poster="" id="garden" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/garden_full_1M_focal_stack_insets.mp4"
+        <div class="item item-counter">
+          <video poster="" id="counter" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/captured/counter.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-kitchen">
           <video poster="" id="kitchen" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/kitchen_full_1M_focal_stack_insets.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-hotdog">
-          <video poster="" id="hotdog" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/hotdog_full_1M_focal_stack_insets.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-lego">
-          <video poster="" id="lego" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/lego_full_1M_focal_stack_insets.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-ship">
-          <video poster="" id="ship" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/ship_full_1M_focal_stack_insets.mp4"
+            <source src="static/videos/captured/kitchen.mp4"
                     type="video/mp4">
           </video>
         </div>
         <div class="item item-materials">
           <video poster="" id="materials" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/materials_full_1M_focal_stack_insets.mp4"
+            <source src="static/videos/captured/materials.mp4"
                     type="video/mp4">
           </video>
         </div>
-        <div class="item item-chair">
-          <video poster="" id="chair" autoplay muted loop playsinline height="100%">
-            <source src="static/videos/chair_full_1M_focal_stack_insets.mp4"
+        <div class="item item-hotdog">
+          <video poster="" id="hotdog" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/captured/hotdog.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-lego">
+          <video poster="" id="lego" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/captured/lego.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-ship">
+          <video poster="" id="ship" autoplay muted loop playsinline height="100%">
+            <source src="static/videos/captured/ship.mp4"
                     type="video/mp4">
           </video>
         </div>

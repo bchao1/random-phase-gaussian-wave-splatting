@@ -410,6 +410,9 @@ $(document).ready(function() {
     // teaser
     const video = document.getElementById("teaser-video");
 
+    // Set playback rate to 0.5 (slow down by 2x)
+    video.playbackRate = 0.5;
+
     // Pause videos on hover
     video.addEventListener("mouseenter", () => {
       video.pause();
@@ -432,19 +435,21 @@ $(document).ready(function() {
     // carousel for the video
     let carousel_div = document.getElementById("results-carousel");
     var video_id_list = [
-      "room",
-      "stump",
-      "garden",
+      "bicycle",
+      "counter",
       "kitchen",
+      "materials",
       "hotdog",
       "lego",
-      "ship",
-      "materials",
-      "chair"
+      "ship"
     ];
     for (var i = 0; i < video_id_list.length; i++) {
         let video_element = document.getElementById(video_id_list[i]);
         console.log(video_element);
+        
+        // Set playback rate to 0.5 (slow down by 2x)
+        video_element.playbackRate = 0.5;
+        
         video_element.addEventListener('mouseenter', () => {
           video_element.pause();
         });
@@ -478,7 +483,7 @@ $(document).ready(function() {
 })
 
 // Select teaser scene
-let teaserScene = "garden";
+let teaserScene = "kitchen";
 function selectTeaserScene(scene) {
   console.log("selecting scene: " + scene);
   document.querySelectorAll('[id^="teaser-button"]').forEach(button => button.classList.remove('is-active-teaser'));
@@ -488,6 +493,6 @@ function selectTeaserScene(scene) {
 }
 
 function updateTeaserVideo() {
-  document.getElementById('teaser-video').src = `static/videos/${teaserScene}_nvs_focal_stack.mp4`;
+  document.getElementById('teaser-video').src = `static/videos/captured/${teaserScene}.mp4`;
 }
 
