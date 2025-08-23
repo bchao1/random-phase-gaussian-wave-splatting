@@ -61,10 +61,11 @@
           <div class="is-size-5 publication-authors">
             <span class="author-block">Stanford University</span>
           </div>
-
+          <!---
           <div class="is-size-4 publication-authors">
-            <span class="author-block"><em>SIGGRAPH Asia 2025 (Journal Track)</em></span>
+            <span class="author-block"><em></em></span>
           </div>
+        -->
 
           <div class="column has-text-centered">
             <div class="publication-links">
@@ -80,7 +81,7 @@
               </span>
             -->
               <!-- Arxiv Link. -->
-              
+              <!--
               <span class="link-block">
                 <a href="https://arxiv.org/pdf/2505.06582"
                    class="external-link button is-normal is-rounded is-dark">
@@ -90,8 +91,10 @@
                   <span>arXiv</span>
                 </a>
               </span>
+            -->
               
               <!-- Video Link. -->
+              <!---
               <span class="link-block">
                 <a href="https://www.youtube.com/watch?v=ttDCDbhEf7Q"
                    class="external-link button is-normal is-rounded is-dark">
@@ -111,6 +114,7 @@
                   <span>Paper (High-Res & Compressed)</span>
                 </a>
               </span>
+            -->
               
               <!--
               <span class="link-block">
@@ -121,6 +125,7 @@
               </span>
               -->
               <!-- Code Link. -->
+               <!--
               <span class="link-block">
                 <a href=""
                    class="external-link button is-normal is-rounded is-dark">
@@ -130,6 +135,7 @@
                   <span>Code (Coming Soon)</span>
                   </a>
               </span>
+            -->
             </div>
           </div>
           
@@ -141,7 +147,7 @@
                 <a href="https://bchao1.github.io/gaussian-wave-splatting/" class="has-text-weight-bold">
                   Gaussian Wave Splatting (GWS)
                 </a> 
-                project website to learn about our foundational work on converting Gaussians to holograms.
+                project website to learn about our prior work on converting Gaussians to <i>smooth-phase</i> holograms.
               </p>
             </div>
           </div>
@@ -249,28 +255,33 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-          Holographic near-eye displays offer ultra-compact form factors for virtual
-          and augmented reality systems, but rely on advanced computer-generated
-          holography (CGH) algorithms to convert 3D scenes into interference patterns that 
-          can be displayed on spatial light modulators (SLMs). 
-          <b><a href="https://bchao1.github.io/gaussian-wave-splatting/">Gaussian Wave Splatting (GWS)</a></b>
-          has recently emerged as a powerful CGH paradigm
-          that allows for the conversion of Gaussians—a state-of-the-art neural 3D
-          representation—into holograms. However, GWS assumes smooth-phase
-          distributions over the Gaussian primitives, limiting their ability to model
-          view-dependent effects and reconstruct accurate defocus blur, and severely
-          under-utilizing the space–bandwidth product of the SLM. 
+            Holographic near-eye displays offer ultra-compact form factors for virtual and augmented reality systems, 
+          but rely on advanced computer-generated holography (CGH) algorithms to convert 3D scenes into interference patterns 
+          that can be displayed on spatial light modulators (SLMs). <strong><a href="https://bchao1.github.io/gaussian-wave-splatting/">Gaussian Wave Splatting (GWS)</a></strong> 
+          has recently emerged as a 
+          powerful CGH paradigm that allows for the conversion of Gaussians, a state-of-the-art neural 3D representation, into holograms. 
+          However, GWS assumes smooth-phase distributions over the Gaussian primitives, limiting their ability to model view-dependent effects 
+          and reconstruct accurate defocus blur, and severely under-utilizing the space--bandwidth product of the SLM. 
           </p>
 
           <p>
-            In this work, we propose <b>Random-phase GWS (GWS-RP)</b> to improve bandwidth utilization,
-            which has the effect of <b>increasing eyebox size, reconstructing accurate defocus blur and parallax, 
-              and supporting time-multiplexed rendering to suppress speckle artifacts</b>. 
-            At the core of GWS-RP is a novel wavefront compositing and alpha-blending scheme, 
-            along with a principled way of applying random phases to Gaussian primitives. 
-            These advancements collectively lead to high image quality and perceptually realistic 3D holograms for next-generation near-eye displays, 
-            as we demonstrate through extensive simulated and experimental results.
+            In this work, we propose <strong>random-phase GWS (GWS-RP)</strong> to improve bandwidth utilization, 
+            which has the effect of increasing eyebox size, 
+            reconstructing accurate defocus blur and parallax, and supporting time-multiplexed rendering to suppress speckle artifacts. 
+            At the core of GWS-RP are 
+            <ol>
+              <li>a fundamentally new <strong>wavefront compositing procedure</strong> and</li>
+              <li>an <strong>alpha-blending scheme</strong> specifically 
+                designed for random-phase Gaussian primitives, ensuring physically correct color reconstruction and robust occlusion handling. </li>
+            </ol>
+
+            Additionally, we present the <i>first formally derived algorithm</i> for applying random phase to Gaussian primitives, 
+            grounded in rigorous statistical optics analysis and validated through practical near-eye display applications. 
+            Through extensive simulations and experimental validations, we demonstrate that these advancements, collectively 
+            with time-multiplexing, uniquely enables full-bandwith light field CGH that supports accurate accurate parallax and defocus,
+            yielding state-of-the-art image quality and perceptually faithful 3D holograms for next-generation near-eye displays.            
           </p>
+
  
         </div>
       </div>
@@ -279,7 +290,7 @@
   </div>
 </section>
 
-<section class="section fullwidth-gray-bg">
+<section class="section fullwidth">
   <div class="container is-max-desktop">
 <!-- Model Pipeline. -->
 <div class="columns is-centered has-text-centered">
@@ -314,24 +325,29 @@
     <div class="content has-text-justified">
       <p>
         We propose a novel wavefront compositing scheme that performs back-to-front compositing of Gaussian primitives, 
-        inspired by the silhouette method from prior polygon-based computer-generated holography (CGH) research. In addition, 
-        we introduce a new alpha-blending formulation compatible with arbitrary random-phase primitives. Together, these two 
-        contributions enable accurate reconstruction of defocus blur and occlusion effects, while fully eliminating the dark 
-        halo artifacts commonly observed in previous alpha-blending approaches.
+        inspired by the silhouette method from prior polygon-based computer-generated holography (CGH) research. Furthermore, 
+        we introduce a completely new alpha-blending formulation compatible with arbitrary random-phase primitives, based on the observation
+        that alpha blending of wavefronts is linear in the <i>intensity</i> domain for random-phase wavefronts, instead of 
+        the <i>amplitude</i> domain for smooth-phase wavefronts.
+        <br>
+        <br>
+        Together, these two algorithmic advancements reproduce accurate color and reconstructs exact defocus blur and occlusion of random-phase 
+        Gaussian wavefronts, while fully eliminating the dark halo artifacts commonly observed in previous alpha-blending approaches.
       </p>
     </div>
           <h3 class="title is-4 has-text-centered">2. Structured Random Phase</h3>
       <div class="content has-text-centered">
-        <img src="./static/images/structured_rp.svg" style="width: 50%;">
+        <img src="./static/images/structured_rp.png" style="width: 80%;">
       </div>
     <div class="content has-text-justified">
       <p>
-        We propose a principled way of applying random phases to Gaussian primitives, which allows for the correct modeling of 
+        We discuss a principled way of applying random phases to Gaussian primitives, <strong>which allows for the correct modeling of 
         any angular emission profile, or Fourier spectrum, of the Gaussian primitive while maintaining its amplitude distribution in 
-        the spatial domain. This is different from prior random-phase CGH methods where only fully diffuse surfaces can be reconstructed.
+        the spatial domain</strong>. This is different from prior random-phase CGH methods where only fully diffuse surfaces can be reconstructed.
         This allows for the correct reconstruction of 
         view-dependent effects such as specular colors using spherical harmonics, and introduces new capabilities for GWS-RP such as 
-        programmatical control of the depth of field of the hologram.
+       <strong>programmatical control of the depth of field of the hologram</strong>. For the first time, we provide rigorous and extensive proofs 
+        grounded in statistical optics that validate the mathematical correctness of the heuristic outlined in the GWS supplemental materials.
       </p>
     </div>
   </div>
